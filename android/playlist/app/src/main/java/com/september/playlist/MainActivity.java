@@ -8,6 +8,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.NumberPicker;
+import android.widget.RadioButton;
 import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
     // 빈 데이터 리스트 생성.
     ArrayList<String> items;
     ArrayAdapter adapter;
+    private RadioButton b1, b2;
+    private NumberPicker np;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) { //onCreateOptionsMenu는 자동 호출됨
@@ -33,6 +37,16 @@ public class MainActivity extends AppCompatActivity {
         // listview 생성 및 adapter 지정.
         final ListView listview = (ListView) findViewById(R.id.listview1) ;
         listview.setAdapter(adapter) ;
+
+         b1 = (RadioButton)findViewById(R.id.r_btn1);
+        b1.setChecked(true);
+        b2 = (RadioButton)findViewById(R.id.r_btn2);
+
+        np = findViewById(R.id.num_p);
+
+        // Number Picker Setting
+        np.setMinValue(10);
+        np.setMaxValue(99);
 
 
     }
@@ -54,14 +68,20 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public boolean onQueryTextSubmit(String query) {
             // 텍스트 입력 후 검색 버튼이 눌렸을 때의 이벤트
-
+            items.clear();
             // URL 설정.
             String url = "https://september-n2yuvn4wna-de.a.run.app?label=";
             url += query;
             url += "&num=";
-            url += Integer.toString(10);
+            url += Integer.toString(np.getValue());
             url += "&sentence=";
-            url += Integer.toString(0);
+            if (b1.isChecked()) {
+                url += Integer.toString(0);
+            }
+            else {
+                url += Integer.toString(1);
+            }
+
 
             // AsyncTask를 통해 HttpURLConnection 수행.
             ContentValues val = new ContentValues();
