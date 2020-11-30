@@ -16,8 +16,8 @@ ENV APP_HOME /app
 WORKDIR $APP_HOME
 
 COPY ./model.doc2vec ./
+COPY ./doctags.pickle ./
 COPY ./loadmodel.py ./
 COPY ./app.py ./
-COPY ./groups.pickle ./
 
 CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 app:app

@@ -10,19 +10,17 @@ import re
 model = Doc2Vec.load('model.doc2vec')
 okt = Okt()
 
-with open('groups.pickle', 'rb') as f:
-	groups = pickle.load(f)
-
-stopwords = ['의','가','이','은','들','는','좀','잘','걍','과','도','를','으로','자','에','와','한','하다']
+#with open('doctags.pickle', 'rb') as f:
+#	doctags = pickle.load(f) # 단 한줄씩 읽어옴
 
 vector_docs = model.docvecs.vectors_docs
 doctags = []
 for i, docvec in enumerate(vector_docs):
-    tag = model.docvecs.index_to_doctag(i)
-    if tag in groups:
-        continue
-    else:
-        doctags.append([tag, docvec])
+	tag = model.docvecs.index_to_doctag(i)
+	doctags.append([tag, docvec])
+
+
+stopwords = ['의','가','이','은','들','는','좀','잘','걍','과','도','를','으로','자','에','와','한','하다']
 
 def preprocessing(text):
     # 개행문자 제거
